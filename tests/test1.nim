@@ -5,8 +5,15 @@
 #
 # To run these tests, simply execute `nimble test`.
 
+
+
 import unittest
 
 import nim_greeting
-test "Greetings":
-  check greet("Bob") == "Hello, Bob."
+
+suite "Greetings":
+  test "No Name is passed":
+    check greet() == "Hello, my friend."
+
+  test "Single Name is passed":
+    check greet("Bob") == "Hello, Bob."

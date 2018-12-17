@@ -4,5 +4,7 @@
 
 import strutils
 
+proc greet*(): string =
+  "Hello, my friend."
 proc greet*(name: string): string =
   join(["Hello, ", name, "."])
