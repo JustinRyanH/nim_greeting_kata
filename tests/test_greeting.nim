@@ -15,8 +15,14 @@ suite "Greetings":
   test "No Name is passed":
     check greet() == "Hello, my friend."
 
-  test "Single Name is passed":
-    check greet("Bob") == "Hello, Bob."
+  test "Single Name":
+    test "is lowercase it responds":
+      check greet("Bob") == "Hello, Bob."
 
-  test "Single Name is shotung":
-    check greet("BOB") == "HELLO BOB!"
+    test "is upper case it shouts":
+      check greet("BOB") == "HELLO BOB!"
+
+  test "Multiple Names":
+    test "when two names pass it, and responds to both":
+      check greet("Bob", "Jill") == "Hello, Bob and Jill."
+  

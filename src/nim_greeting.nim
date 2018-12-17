@@ -4,11 +4,15 @@
 
 import strutils
 
-proc greet*(): string =
-  "Hello, my friend."
-
-proc greet*(name: string): string =
-  if isUpperAscii(name, false):
-    join(["HELLO ", name, "!"])
-  else:
-    join(["Hello, ", name, "."])
+proc greet*(names: varargs[string]): string =
+  result = case len(names):
+    of 0:
+      "Hello, my friend."
+    of 1:
+      if isUpperAscii(names[0], false):
+        join(["HELLO ", names[0], "!"])
+      else:
+        join(["Hello, ", names[0], "."])
+    else:
+      join(["Hello, ", names[0], " and ", names[1], "."])
+  
