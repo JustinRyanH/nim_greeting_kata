@@ -17,3 +17,6 @@ suite "Greetings":
 
   test "Single Name is passed":
     check greet("Bob") == "Hello, Bob."
+
+  test "Single Name is shotung":
+    check greet("BOB") == "HELLO BOB!"

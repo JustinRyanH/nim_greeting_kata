@@ -6,5 +6,9 @@ import strutils
 
 proc greet*(): string =
   "Hello, my friend."
+
 proc greet*(name: string): string =
-  join(["Hello, ", name, "."])
+  if isUpperAscii(name, false):
+    join(["HELLO ", name, "!"])
+  else:
+    join(["Hello, ", name, "."])
