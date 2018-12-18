@@ -32,3 +32,5 @@ suite "Greetings":
     test "when there are mixed capitalized and lowercase, it shouts at uppercase":
       check greet("Bob", "JILL", "Sam") == "Hello, Bob and Sam. HELLO JILL!"
   
+    test "when there are comma seperated names, it splits the names":
+      check greet("Bob", "Jill, Sam") == "Hello, Bob, Jill, and Sam."

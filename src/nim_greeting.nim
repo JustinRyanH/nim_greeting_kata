@@ -5,13 +5,20 @@
 import strutils
 import sequtils
 
-proc greet_one(name: string): string =
+
+proc first(names: openArray[string]): string =
+  names[0]
+
+proc last(names: openArray[string]): string =
+  names[^1]
+
+proc greet(name: string): string =
   if isUpperAscii(name, false):
     join(["HELLO ", name, "!"])
   else:
     join(["Hello, ", name, "."])
 
-proc greet_two(name: string, other: string): string =
+proc greet(name: string, other: string): string =
   join(["Hello, ", name, " and ", other, "."])
 
 proc all_but_last(names: openArray[string]): string =
@@ -22,19 +29,23 @@ proc just_greet(names: openArray[string]): string =
     of 0:
       ""
     of 1:
-      greet_one(names[0])
+      greet(names.first())
     of 2:
-      greet_two(all_but_last(names), names[1])
+      names.all_but_last().greet(names.last())
     else:
-      greet_two(all_but_last(names) & ",", names[^1])
+      (names.all_but_last() & ",").greet(names.last())
+
+proc join_commas(names: varargs[string]): seq[string] =
+  for it in items(names):
+    result = concat(result, split(it, ",").mapIt(string, it.strip()))
 
 proc greet*(names: varargs[string]): string =
-  result = case len(names):
+  result = case names.len():
     of 0:
       "Hello, my friend."
     else:
-      let upper = filterIt(names, isUpperAscii(it, false))
-      let lower = filterIt(names, not isUpperAscii(it, false))
-      
-      strip( join([ just_greet(lower), " ", just_greet(upper) ]) )
+      let upper = names.join_commas().filterIt(isUpperAscii(it, false))
+      let lower = names.join_commas().filterIt(not isUpperAscii(it, false))
+
+      strip(join([ lower.just_greet(), " ", upper.just_greet()]))
 
