@@ -16,8 +16,8 @@ proc closer(isUpper: bool): string =
 proc ander(isUpper: bool): string =
   if isUpper: "AND" else: "and"
 
-proc greet(name: string, isUpper: bool = false): string =
-  [opener(isUpper), name, closer(isUpper)].join
+proc greet(names: seq[string], isUpper: bool = false): string =
+  isUpper.opener & names.join(" ") & isUpper.closer
 
 proc with_trailing_comma(names: seq[string]): seq[string] =
   if (names.len > 2):
@@ -27,17 +27,15 @@ proc with_trailing_comma(names: seq[string]): seq[string] =
 
 proc cap(names: seq[string], isUpper: bool): seq[string] =
   if (names.len > 1): 
-    names.all_but_last & ander(isUpper) & names.last
+    names.all_but_last & isUpper.ander & names.last
   else:
     names
 
 proc just_greet(names: seq[string], isUpper: bool = false): string =
-  if names.len == 0:
-    return ""
+  if names.len == 0: return ""
   names
     .with_trailing_comma
     .cap(isUpper)
-    .join(" ")
     .greet(isUpper)
 
 proc join_commas(names: varargs[string]): seq[string] =
