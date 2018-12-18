@@ -1,10 +1,5 @@
-# This is just an example to get you started. A typical library package
-# exports the main API in this file. Note that you cannot rename this file
-# but you can remove it if you wish.
-
 import strutils
 import sequtils
-
 
 proc first(names: openArray[string]): string =
   names[0]
@@ -46,6 +41,6 @@ proc greet*(names: varargs[string]): string =
     else:
       let upper = names.join_commas.filterIt(it.isUpperAscii(false))
       let lower = names.join_commas.filterIt(not it.isUpperAscii(false))
-      
+
       [ lower.just_greet, " ", upper.just_greet].join.strip
 
