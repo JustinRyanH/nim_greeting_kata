@@ -17,10 +17,10 @@ proc greet_two(name: string, other: string): string =
 proc all_but_last(names: openArray[string]): string =
   join(names[0..^2], ", ")
 
-proc greet*(names: varargs[string]): string =
+proc just_greet(names: openArray[string]): string =
   result = case len(names):
     of 0:
-      "Hello, my friend."
+      ""
     of 1:
       greet_one(names[0])
     of 2:
@@ -28,6 +28,13 @@ proc greet*(names: varargs[string]): string =
     else:
       greet_two(all_but_last(names) & ",", names[^1])
 
+proc greet*(names: varargs[string]): string =
+  result = case len(names):
+    of 0:
+      "Hello, my friend."
+    else:
+      let upper = filterIt(names, isUpperAscii(it, false))
+      let lower = filterIt(names, not isUpperAscii(it, false))
       
+      strip( join([ just_greet(lower), " ", just_greet(upper) ]) )
 
-  

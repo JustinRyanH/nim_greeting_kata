@@ -28,4 +28,7 @@ suite "Greetings":
 
     test "when there are more than two names, it resposes with a sentance":
       check greet("Bob", "Jill", "Sam") == "Hello, Bob, Jill, and Sam."
+
+    test "when there are mixed capitalized and lowercase, it shouts at uppercase":
+      check greet("Bob", "JILL", "Sam") == "Hello, Bob and Sam. HELLO JILL!"
   
