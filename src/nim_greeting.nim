@@ -14,38 +14,38 @@ proc last(names: openArray[string]): string =
 
 proc greet(name: string): string =
   if isUpperAscii(name, false):
-    join(["HELLO ", name, "!"])
+    ["HELLO ", name, "!"].join
   else:
-    join(["Hello, ", name, "."])
+    ["Hello, ", name, "."].join
 
 proc greet(name: string, other: string): string =
-  join(["Hello, ", name, " and ", other, "."])
+  ["Hello, ", name, " and ", other, "."].join 
 
 proc all_but_last(names: openArray[string]): string =
-  join(names[0..^2], ", ")
+  names[0..^2].join(", ")
 
 proc just_greet(names: openArray[string]): string =
-  result = case len(names):
+  result = case names.len:
     of 0:
       ""
     of 1:
-      greet(names.first())
+      names.first.greet
     of 2:
-      names.all_but_last().greet(names.last())
+      names.all_but_last.greet(names.last)
     else:
-      (names.all_but_last() & ",").greet(names.last())
+      (names.all_but_last & ",").greet(names.last)
 
 proc join_commas(names: varargs[string]): seq[string] =
   for it in items(names):
-    result = concat(result, split(it, ",").mapIt(string, it.strip()))
+    result = result.concat(it.split(",").mapIt(string, it.strip))
 
 proc greet*(names: varargs[string]): string =
-  result = case names.len():
+  result = case names.len:
     of 0:
       "Hello, my friend."
     else:
-      let upper = names.join_commas().filterIt(isUpperAscii(it, false))
-      let lower = names.join_commas().filterIt(not isUpperAscii(it, false))
-
-      strip(join([ lower.just_greet(), " ", upper.just_greet()]))
+      let upper = names.join_commas.filterIt(it.isUpperAscii(false))
+      let lower = names.join_commas.filterIt(not it.isUpperAscii(false))
+      
+      [ lower.just_greet, " ", upper.just_greet].join.strip
 
