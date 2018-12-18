@@ -7,14 +7,18 @@ proc first(names: openArray[string]): string =
 proc last(names: openArray[string]): string =
   names[^1]
 
+proc opener(isUpper: bool): string =
+  if isUpper: "HELLO " else: "Hello, "
+
+proc closer(isUpper: bool): string =
+  if isUpper: "!" else: "."
+
 proc greet(name: string): string =
-  if isUpperAscii(name, false):
-    ["HELLO ", name, "!"].join
-  else:
-    ["Hello, ", name, "."].join
+  var isUpper = isUpperAscii(name, false)
+  [opener(isUpper), name, closer(isUpper)].join
 
 proc greet(name: string, other: string): string =
-  ["Hello, ", name, " and ", other, "."].join 
+  [opener(false), name, " and ", other, closer(false)].join 
 
 proc all_but_last(names: openArray[string]): string =
   names[0..^2].join(", ")
