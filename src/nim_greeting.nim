@@ -13,26 +13,40 @@ proc opener(isUpper: bool): string =
 proc closer(isUpper: bool): string =
   if isUpper: "!" else: "."
 
-proc greet(name: string): string =
-  var isUpper = isUpperAscii(name, false)
+proc ander(isUpper: bool): string =
+  if isUpper: "AND" else: "and"
+
+proc greet(name: string, isUpper: bool = false): string =
   [opener(isUpper), name, closer(isUpper)].join
 
-proc greet(name: string, other: string): string =
-  [opener(false), name, " and ", other, closer(false)].join 
+proc all_but_last(names: openArray[string]): seq[string] =
+  names[0..^2]
 
-proc all_but_last(names: openArray[string]): string =
-  names[0..^2].join(", ")
+proc with_trailing_comma(names: seq[string]): seq[string] =
+  names.mapIt(it & ",")
 
-proc just_greet(names: openArray[string]): string =
+proc cap(names: seq[string], cap_name: string, isUpper: bool): seq[string] =
+  names & ander(isUpper) & cap_name
+
+proc just_greet(names: openArray[string], isUpper: bool = false): string =
   result = case names.len:
     of 0:
       ""
     of 1:
-      names.first.greet
+      names.first.greet(isUpper)
     of 2:
-      names.all_but_last.greet(names.last)
+      names
+      .all_but_last
+      .cap(names.last, isUpper)
+      .join(" ")
+      .greet(isUpper)
     else:
-      (names.all_but_last & ",").greet(names.last)
+      names
+      .all_but_last
+      .with_trailing_comma
+      .cap(names.last, isUpper)
+      .join(" ")
+      .greet(isUpper)
 
 proc join_commas(names: varargs[string]): seq[string] =
   for it in items(names):
@@ -46,5 +60,5 @@ proc greet*(names: varargs[string]): string =
       let upper = names.join_commas.filterIt(it.isUpperAscii(false))
       let lower = names.join_commas.filterIt(not it.isUpperAscii(false))
 
-      [ lower.just_greet, " ", upper.just_greet].join.strip
+      [ lower.just_greet, " ", upper.just_greet(true) ].join.strip
 
