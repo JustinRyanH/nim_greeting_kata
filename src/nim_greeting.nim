@@ -3,16 +3,31 @@
 # but you can remove it if you wish.
 
 import strutils
+import sequtils
+
+proc greet_one(name: string): string =
+  if isUpperAscii(name, false):
+    join(["HELLO ", name, "!"])
+  else:
+    join(["Hello, ", name, "."])
+
+proc greet_two(name: string, other: string): string =
+  join(["Hello, ", name, " and ", other, "."])
+
+proc all_but_last(names: openArray[string]): string =
+  join(names[0..^2], ", ")
 
 proc greet*(names: varargs[string]): string =
   result = case len(names):
     of 0:
       "Hello, my friend."
     of 1:
-      if isUpperAscii(names[0], false):
-        join(["HELLO ", names[0], "!"])
-      else:
-        join(["Hello, ", names[0], "."])
+      greet_one(names[0])
+    of 2:
+      greet_two(all_but_last(names), names[1])
     else:
-      join(["Hello, ", names[0], " and ", names[1], "."])
+      greet_two(all_but_last(names) & ",", names[^1])
+
+      
+
   

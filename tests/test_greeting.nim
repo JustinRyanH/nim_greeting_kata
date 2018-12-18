@@ -25,4 +25,7 @@ suite "Greetings":
   test "Multiple Names":
     test "when two names pass it, and responds to both":
       check greet("Bob", "Jill") == "Hello, Bob and Jill."
+
+    test "when there are more than two names, it resposes with a sentance":
+      check greet("Bob", "Jill", "Sam") == "Hello, Bob, Jill, and Sam."
   
